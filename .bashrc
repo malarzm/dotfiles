@@ -7,6 +7,10 @@ docker() {
 		command docker exec -it "$2" bash
 	elif [[ $1 == "ip" ]]; then
 		command docker inspect "$2" | grep '"IPAddress": "172' | grep -oE "([0-9\.]+)"
+	elif [[ $1 == "nuke" ]]; then
+                command docker kill $(command docker ps -q)
+                command docker rm $(command docker ps -a -q)
+                command docker rmi $(command docker images -q)
 	else
 		command docker "$@"
 	fi
